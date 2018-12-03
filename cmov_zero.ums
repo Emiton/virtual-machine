@@ -1,0 +1,10 @@
+  r7 := L1
+  r6 := L2
+  if (r0 != 0) r7 := r6  // should leave r7 unchanged
+  goto r7 in program m[r0];
+L2:
+  output "Conditional Move on zero register failed.\n" using r5
+  halt
+L1:
+  output "Conditional Move on zero register passed.\n" using r5
+  halt
