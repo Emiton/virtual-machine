@@ -12,9 +12,4 @@ struct segment {
     int segmentLength;
 };
 
-/*
- * 
- *
- *
- * */
 struct segment *loadProgram(char *program);

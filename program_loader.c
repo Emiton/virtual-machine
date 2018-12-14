@@ -1,3 +1,14 @@
+/*
+ * program_loader.c
+ *
+ * Authors : Emiton Alves and Cameron LaFreniere
+ *
+ * Description: This file handles the loading of a binary file.
+ *              The input file will be translated into a set of 32 bit words.
+ *              The set of words are returned to the client.
+ *
+ * */
+
 #include <stdio.h>
 #include <stdlib.h> 
 #include "bitpack.h"
