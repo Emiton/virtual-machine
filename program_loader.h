@@ -8,8 +8,8 @@
  * */
 
 struct segment {
-    int *segment_words;
-    int segment_length;
+    int *segmentWords;
+    int segmentLength;
 };
 
 /*
@@ -17,4 +17,4 @@ struct segment {
  *
  *
  * */
-struct segment *load(char *program);
+struct segment *loadProgram(char *program);
