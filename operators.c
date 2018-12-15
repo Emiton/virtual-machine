@@ -11,7 +11,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-void conditionalMove(uint32_t *regValues, uint32_t *reg)
+void conditionalMove(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
@@ -22,7 +22,7 @@ void conditionalMove(uint32_t *regValues, uint32_t *reg)
         reg[A] = reg[B];
     }
 }
-void segmentedLoad(uint32_t *regValues, uint32_t *reg, memSpace memory)
+void segmentedLoad(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace memory)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
@@ -30,7 +30,7 @@ void segmentedLoad(uint32_t *regValues, uint32_t *reg, memSpace memory)
 
     reg[A] = getValue(memory, reg[B], reg[C]);
 }
-void segmentedStore(uint32_t *regValues, uint32_t *reg, memSpace memory)
+void segmentedStore(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace memory)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
@@ -38,7 +38,7 @@ void segmentedStore(uint32_t *regValues, uint32_t *reg, memSpace memory)
     
     storeValue(memory, reg[A], reg[B], reg[C]);
 }
-void addition(uint32_t *regValues, uint32_t *reg)
+void addition(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
@@ -47,21 +47,21 @@ void addition(uint32_t *regValues, uint32_t *reg)
     reg[A] = reg[B] + reg[C];
 
 }
-void multiplication(uint32_t *regValues, uint32_t *reg)
+void multiplication(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
              C = regValues[2];
     reg[A] = reg[B] * reg[C];
 }
-void division(uint32_t *regValues, uint32_t *reg)
+void division(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
              C = regValues[2];
     reg[A] = reg[B] / reg[C];
 }
-void bitwiseNAND(uint32_t *regValues, uint32_t *reg)
+void bitwiseNAND(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
@@ -85,7 +85,7 @@ void halt(Stack_T unmappedSegs, memSpace memory)
     exit(EXIT_SUCCESS);
 }
 
-void mapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
+void mapSegment(uint32_t B, uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
 {
     uint32_t B = regValues[1],
              C = regValues[2];
@@ -101,14 +101,14 @@ void mapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, memSpa
         reg[B] = map_seg(memory, segID, reg[C]);
     }
 }
-void unmapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
+void unmapSegment(uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
 {
     uint32_t C = regValues[2];
     unmap_seg(memory, reg[C]);
     Stack_push(unmappedSegs, (void*)(uintptr_t) reg[C]); 
 }
 
-void output(uint32_t *regValues, uint32_t *reg)
+void output(uint32_t C, uint32_t *reg)
 {
     printf("C: %u\n", regValues[2]); 
     uint32_t C = regValues[2];
@@ -117,7 +117,7 @@ void output(uint32_t *regValues, uint32_t *reg)
     putchar(reg[C]);
 }
 
-void input(uint32_t *regValues, uint32_t *reg)
+void input(uint32_t C, uint32_t *reg)
 {
     uint32_t C = regValues[2];
     uint32_t charInput = (uint32_t) getc(stdin);
@@ -131,7 +131,7 @@ void input(uint32_t *regValues, uint32_t *reg)
     reg[C] = charInput;
 }
 
-void loadProgram(uint32_t *regValues, uint32_t *reg, memSpace memory, int* instructionCount, int* counter)
+void loadProgram(uint32_t B, uint32_t C, uint32_t *reg, memSpace memory, int* instructionCount, int* counter)
 {
     uint32_t B = regValues[1],
              C = regValues[2];  
@@ -145,7 +145,7 @@ void loadProgram(uint32_t *regValues, uint32_t *reg, memSpace memory, int* instr
     }  
 }
 
-void loadValue(uint32_t *regValues, uint32_t *reg, uint32_t storedValue)
+void loadValue(uint32_t A, uint32_t *reg, uint32_t storedValue)
 {
    uint32_t A = regValues[0];
    reg[A] = storedValue;
