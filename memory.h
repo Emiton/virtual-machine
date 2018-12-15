@@ -1,3 +1,3 @@
 #include <seq.h>
 
-typedef Seq_T memspace;
+typedef Seq_T memSpace;

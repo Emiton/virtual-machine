@@ -1,16 +1,16 @@
 #include "memory.h"
 
-memspace initializeMemory(memspace *memory)
+memSpace initializeMemory(memSpace *memory)
 {
     return Seq_new(100);
 }
 
-void freeMemory(memspace *memory)
+void freeMemory(memSpace *memory)
 {
     Seq_free(memory);
 }
 
-int memoryLength(memspace memory)
+int memoryLength(memSpace memory)
 {
     return Seq_length(memory);
 }
