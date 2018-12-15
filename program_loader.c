@@ -29,7 +29,7 @@ struct segment *load(char *program)
         exit(EXIT_FAILURE);
     }
 
-    uint32_t programLength = fileLength(input) / 4;
+    uint32_t programLength = fileLength(input);
     struct segment *instructionSet = NULL;
     instructionSet = malloc(sizeof(struct segment));
     instructionSet->segmentWords = malloc(programLength * sizeof(uint32_t));
