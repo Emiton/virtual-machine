@@ -7,9 +7,9 @@
 #include <stack.h>
 #include "memory.h"
 
-void getRegisterValues(uint32_t word,
-                           int registerPositions[],
-                           uint32_t **registerValues);
+//void getRegisterValues(uint32_t word,
+//                           int registerPositions[],
+//                           uint32_t **registerValues);
 void runProgram(struct segment *instructionSet);
 
 
