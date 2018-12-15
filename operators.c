@@ -114,11 +114,12 @@ void unmapSegment(uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memo
 
 void output(uint32_t C, uint32_t *reg)
 {
-    printf("C: %u\n", C); 
     //uint32_t C = regValues[2];
     
     //assert(C <= 255); //assert that output is within ASCII range
     putchar(reg[C]);
+
+    //fputc(reg[C], stdout);
 }
 
 void input(uint32_t C, uint32_t *reg)

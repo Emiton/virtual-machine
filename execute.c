@@ -50,70 +50,70 @@ void runProgram(struct segment *instructionSet)
         switch(operator)
         {
             case 0:
-                A = Bitpack_getu(currentWord, 3, 6);
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0); 
+                A = (uint32_t) Bitpack_getu(currentWord, 3, 6);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0); 
                 conditionalMove(A, B, C, registersGP);
                 break;
             case 1:
-                A = Bitpack_getu(currentWord, 3, 6);
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                A = (uint32_t) Bitpack_getu(currentWord, 3, 6);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 segmentedLoad(A, B, C, registersGP, memory);
                 break;
             case 2:
-                A = Bitpack_getu(currentWord, 3, 6);
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                A = (uint32_t) Bitpack_getu(currentWord, 3, 6);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 segmentedStore(A, B, C, registersGP, memory);
                 break;
             case 3:
-                A = Bitpack_getu(currentWord, 3, 6);
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                A = (uint32_t) Bitpack_getu(currentWord, 3, 6);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 addition(A, B, C, registersGP);
                 break;
             case 4:
-                A = Bitpack_getu(currentWord, 3, 6);
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                A = (uint32_t) Bitpack_getu(currentWord, 3, 6);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 multiplication(A, B, C, registersGP);
                 break;
             case 5:
-                A = Bitpack_getu(currentWord, 3, 6);
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                A = (uint32_t) Bitpack_getu(currentWord, 3, 6);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 division(A, B, C, registersGP);
                 break;
             case 6:
-                A = Bitpack_getu(currentWord, 3, 6);
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                A = (uint32_t) Bitpack_getu(currentWord, 3, 6);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 bitwiseNAND(A, B, C, registersGP);
                 break;
             case 7:
                 halt(unmappedSegs, memory);
                 break;
             case 8:
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 mapSegment(B, C, registersGP, unmappedSegs, memory);
                 break;
             case 9:
-                C = Bitpack_getu(currentWord, 3, 0);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 unmapSegment(C, registersGP, unmappedSegs, memory);
                 break;
             case 10:
-                C = Bitpack_getu(currentWord, 3, 0);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 output(C, registersGP);
                 break;
             case 11:
-                C = Bitpack_getu(currentWord, 3, 0);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 input(C, registersGP);
                 break;
             case 12:
-                B = Bitpack_getu(currentWord, 3, 3);
-                C = Bitpack_getu(currentWord, 3, 0);
+                B = (uint32_t) Bitpack_getu(currentWord, 3, 3);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 0);
                 loadProgram(B,
                             C, 
                             registersGP, 
@@ -122,8 +122,8 @@ void runProgram(struct segment *instructionSet)
                             &instructionCount);
                 break;
             case 13:
-                C = Bitpack_getu(currentWord, 3, 25);
-                uint32_t value = Bitpack_getu(currentWord, 25, 0);
+                C = (uint32_t) Bitpack_getu(currentWord, 3, 25);
+                uint32_t value = (uint32_t) Bitpack_getu(currentWord, 25, 0);
                 loadValue(C, registersGP, value);
                 break;
         } 
