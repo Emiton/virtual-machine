@@ -19,14 +19,21 @@ void conditionalMove(uint32_t *regValues, uint32_t *reg)
         reg[A] = reg[B];
     }
 }
-void segmentedLoad(uint32_t *regValues, uint32_t *reg, Mem mem)
+void segmentedLoad(uint32_t *regValues, uint32_t *reg, memSpace memory)
 {
-    //includes memory, do later
-    //TODO
+    uint32_t A = regValues[0],
+             B = regValues[1],
+             C = regValues[2];
+
+    reg[A] = getValue(memory, reg[B], reg[C]);
 }
-void segmentedStore(uint32_t *regValues, uint32_t *reg, Mem mem)
+void segmentedStore(uint32_t *regValues, uint32_t *reg, memSpace memory)
 {
-    //TODO
+    uint32_t A = regValues[0],
+             B = regValues[1],
+             C = regValues[2];
+    
+    getValue(memory, reg[A], reg[B], reg[C]);
 }
 void addition(uint32_t *regValues, uint32_t *reg)
 {
@@ -59,25 +66,42 @@ void bitwiseNAND(uint32_t *regValues, uint32_t *reg)
     reg[A] = ~(reg[B] & reg[C]);
 }
 //TODO:
-void halt(Stack_T unmappedSegs, Mem mem)
+void halt(Stack_T unmappedSegs, memSpace memory)
 {
     //must free some portion of the memory before calling freeProg()
-    freeProg(unmappedSegs, mem);
+    for(int i = 0; i < memoryLength(memory); i++){
+        if(getSegment(memory, memIndex) != NULL){
+            unmap_seg(memory, i);
+    } 
+    Stack_free(&unmappedSegs);
+    freeMemory(&memory);
+    //freeProg(unmappedSegs, memory);
     exit(EXIT_SUCCESS);
 }
-void mapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, Mem mem)
+
+void mapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
 {
     uint32_t B = regValues[1],
              C = regValues[2];
-    //TODO
+        
+    if(Stack_empty(unmappedSegs) != 1)
+    {
+        uint32_t segID = (uint32_t)(uintptr_t) Stack_pop(unmappedSegs);
+        reg[B] = map_seg(memory, segID, reg[C]); 
+    }
+    else
+    {
+        uint32_t segID = memoryLength(memory);
+        reg[B] = map_seg(memory, segID, reg[C]);
+    }
 }
-void unmapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, Mem mem)
+void unmapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
 {
-    //TODO
     uint32_t C = regValues[2];
-    //unmap a segment based on an ID
-    
+    unmap_seg(memory, reg[C]);
+    Stack_push(unmappedSegs, (void*)(uintptr_t) reg[C]); 
 }
+
 void output(uint32_t *regValues, uint32_t *reg)
 {
     uint32_t C = reg[regValues[2]];
@@ -86,6 +110,7 @@ void output(uint32_t *regValues, uint32_t *reg)
     assert(C >= 0); 
     putchar(C);
 }
+
 void input(uint32_t *regValues, uint32_t *reg)
 {
     uint32_t C = regValues[2];
@@ -99,7 +124,19 @@ void input(uint32_t *regValues, uint32_t *reg)
     assert(charInput >= 0 && charInput <= 255);
     reg[C] = charInput;
 }
-void loadProgram(uint32_t *regValues, uint32_t *reg, Mem mem, int* instructionCount, int* counter); // counter and program length?
+
+void loadProgram(uint32_t *regValues, uint32_t *reg, memSpace memory, int* instructionCount, int* counter)
+{
+    uint32_t B = regValues[1],
+             C = regValues[2];  
+    
+    *counter = reg[C] - 1;
+    if(reg[B] != 0)
+    {
+        int replacementProgramLength = program_load(memory, reg[B]);
+        
+    }  
+}
 
 void loadValue(uint32_t *regValues, uint32_t *reg, uint32_t storedValue)
 {
@@ -107,8 +144,9 @@ void loadValue(uint32_t *regValues, uint32_t *reg, uint32_t storedValue)
    reg[A] = storedValue;
 }
 
-void freeProg(Stack_T unmappedSegs, Mem mem)
+/*
+void freeProg(Stack_T unmappedSegs, memSpace memory)
 {
-    // must free the memory somehow free(&mem)
     Stack_free(&unmappedSegs);
-}
+    freeMemory(&memory);
+}*/

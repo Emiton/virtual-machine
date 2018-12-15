@@ -1,0 +1,7 @@
+  r7 := L
+  goto r7 in program m[r0]
+  output "GOTO failed.\n" using r1
+  halt
+L:
+  output "GOTO passed.\n" using r1
+  halt

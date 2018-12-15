@@ -10,8 +10,8 @@
  * */
 
 #include <stdio.h>
-#include "bitpack.h"
 #include "program_loader.h"
+#include "execute.h"
 
 /**
  * This function drives the entire program
@@ -24,9 +24,7 @@ int main(int argc, char *argv[])
     if(argc == 2)
     {
         struct segment *program = loadProgram(argv[1]);
-        // run stuff
-        // kill stuff
-        // return
+        runProgram(program);        
     }
     else
     {

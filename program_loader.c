@@ -9,9 +9,6 @@
  *
  * */
 
-#include <stdio.h>
-#include <stdlib.h> 
-#include "bitpack.h"
 #include "program_loader.h"
 
 uint32_t fileLength(FILE *currentFile);

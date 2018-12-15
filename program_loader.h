@@ -6,6 +6,12 @@
  * Description: This file TODO
  *
  * */
+#ifndef PROGRAM_LOADER_INCLUDED
+#define PROGRAM_LOADER_INCLUDED
+
+#include "bitpack.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 struct segment {
     int *segmentWords;
@@ -13,3 +19,5 @@ struct segment {
 };
 
 struct segment *loadProgram(char *program);
+
+#endif

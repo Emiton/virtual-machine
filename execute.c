@@ -23,10 +23,10 @@ uint32_t registersGP[8] = {0};
 void runProgram(struct segment *instructionSet)
 {
     uint32_t A, B, C;
-    // Create memory TODO
-    // Create unmapped stack
+    memSpace memory = initializeMemory(100);
+    Stack_T unmappedSegs = Stack_new();
     int instructionCount = instructionSet->segmentLength;
-    // Add program to mem sequence
+    Seq_addhi(memory, instructionSet);
 
     for(;instructionPointer < instructionCount ;instructionPointer++)
     {
@@ -79,19 +79,19 @@ void runProgram(struct segment *instructionSet)
                 bitwiseNAND(registerValues, registersGP);
                 break;
             case 7:
-                halt(unmapped, memory);
+                halt(unmappedSegs, memory);
                 break;
             case 8:
                 registerValues = getRegisterValues(currentWord, 
                                                    [-1,3,0],
                                                    registerValues);
-                mapSegment(registerValues, registersGP, unmapped, memory);
+                mapSegment(registerValues, registersGP, unmappedSegs, memory);
                 break;
             case 9:
                 registerValues = getRegisterValues(currentWord, 
                                                    [-1,-1,0],
                                                    registerValues);
-                unmapSegment(registerValues, registersGP, unmapped, memory);
+                unmapSegment(registerValues, registersGP, unmappedSegs, memory);
                 break;
             case 10:
                 registerValues = getRegisterValues(currentWord, 

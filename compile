@@ -40,7 +40,8 @@ done
 # link together .o files + libraries to make executable binaries
 # using one case statement per executable binary
 case $link in 
-    all|um) $CC $FLAGS $LFLAGS -o um um.o program_loader.o $LIBS
+    all|um) $CC $FLAGS $LFLAGS -o um um.o program_loader.o execute.o memory.o \
+                                     segment.o operators.o $LIBS
                  linked=yes ;;
 esac
 
