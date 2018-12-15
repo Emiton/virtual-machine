@@ -20,7 +20,7 @@ uint32_t createWord(FILE *program);
  * @return: will return an instruction set that conatins all loaded
  * instructions and a field indicating number of instructions 
  **/
-struct segment *loadProgram(char *program)
+struct segment *load(char *program)
 {
     FILE *input = fopen(program, "r");
     if(input == NULL)

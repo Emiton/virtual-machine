@@ -5,4 +5,8 @@
 
 typedef Seq_T memSpace;
 
+memSpace initializeMemory(int length);
+void freeMemory(memSpace *memory);
+int memoryLength(memSpace memory);
+
 #endif

@@ -8,13 +8,16 @@
  * */
 #include <stdint.h>
 #include "operators.h"
+#include <assert.h>
+#include <stdio.h>
+
 void conditionalMove(uint32_t *regValues, uint32_t *reg)
 {
     uint32_t A = regValues[0],
              B = regValues[1],
              C = regValues[2];
 
-    if(reg[A] != 0) 
+    if(reg[C] != 0) 
     {
         reg[A] = reg[B];
     }
@@ -33,7 +36,7 @@ void segmentedStore(uint32_t *regValues, uint32_t *reg, memSpace memory)
              B = regValues[1],
              C = regValues[2];
     
-    getValue(memory, reg[A], reg[B], reg[C]);
+    storeValue(memory, reg[A], reg[B], reg[C]);
 }
 void addition(uint32_t *regValues, uint32_t *reg)
 {
@@ -41,7 +44,7 @@ void addition(uint32_t *regValues, uint32_t *reg)
              B = regValues[1],
              C = regValues[2];
     
-    reg[A] = reg[B] + reg[c];
+    reg[A] = reg[B] + reg[C];
 
 }
 void multiplication(uint32_t *regValues, uint32_t *reg)
@@ -69,9 +72,12 @@ void bitwiseNAND(uint32_t *regValues, uint32_t *reg)
 void halt(Stack_T unmappedSegs, memSpace memory)
 {
     //must free some portion of the memory before calling freeProg()
-    for(int i = 0; i < memoryLength(memory); i++){
-        if(getSegment(memory, memIndex) != NULL){
+    for(int i = 0; i < memoryLength(memory); i++)
+    {
+        if(getSegment(memory, i) != NULL)
+        {
             unmap_seg(memory, i);
+        }
     } 
     Stack_free(&unmappedSegs);
     freeMemory(&memory);
@@ -104,11 +110,11 @@ void unmapSegment(uint32_t *regValues, uint32_t *reg, Stack_T unmappedSegs, memS
 
 void output(uint32_t *regValues, uint32_t *reg)
 {
-    uint32_t C = reg[regValues[2]];
+    printf("C: %u\n", regValues[2]); 
+    uint32_t C = regValues[2];
     
-    assert(C <= 255); //assert that output is within ASCII range
-    assert(C >= 0); 
-    putchar(C);
+    //assert(C <= 255); //assert that output is within ASCII range
+    putchar(reg[C]);
 }
 
 void input(uint32_t *regValues, uint32_t *reg)
@@ -121,7 +127,7 @@ void input(uint32_t *regValues, uint32_t *reg)
         reg[C] = (uint32_t) ~0;   
     }
     
-    assert(charInput >= 0 && charInput <= 255);
+    assert(charInput <= 255);
     reg[C] = charInput;
 }
 
@@ -130,10 +136,11 @@ void loadProgram(uint32_t *regValues, uint32_t *reg, memSpace memory, int* instr
     uint32_t B = regValues[1],
              C = regValues[2];  
     
-    *counter = reg[C] - 1;
+    *instructionCount = reg[C] - 1;
     if(reg[B] != 0)
     {
         int replacementProgramLength = program_load(memory, reg[B]);
+        *counter = replacementProgramLength;
         
     }  
 }

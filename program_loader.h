@@ -18,6 +18,6 @@ struct segment {
     int segmentLength;
 };
 
-struct segment *loadProgram(char *program);
+struct segment *load(char *program);
 
 #endif

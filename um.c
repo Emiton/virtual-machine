@@ -23,12 +23,12 @@ int main(int argc, char *argv[])
     
     if(argc == 2)
     {
-        struct segment *program = loadProgram(argv[1]);
+        struct segment *program = load(argv[1]);
         runProgram(program);        
     }
     else
     {
-        fprintf("usgae: ./um program \n");
+        fprintf(stderr, "usgae: ./um program \n");
     }
 
 }
