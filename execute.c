@@ -40,51 +40,91 @@ void runProgram(struct segment *instructionSet)
                 registerValues = getRegisterValues(currentWord, 
                                                    [6,3,0],
                                                    registerValues);
-                conditonalMove(registerValues, r);
+                conditonalMove(registerValues, registersGP);
                 break;
             case 1:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [6,3,0],
+                                                   registerValues);
+                segmentedLoad(registerValues, registersGP, memory);
                 break;
             case 2:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [6,3,0],
+                                                   registerValues);
+                segmentedStore(registerValues, registersGP, memory);
                 break;
             case 3:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [6,3,0],
+                                                   registerValues);
+                add(registerValues, registersGP);
                 break;
             case 4:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [6,3,0],
+                                                   registerValues);
+                multiply(registerValues, registersGP);
                 break;
             case 5:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [6,3,0],
+                                                   registerValues);
+                divide(registerValues, registersGP);
                 break;
             case 6:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [6,3,0],
+                                                   registerValues);
+                bitwiseNAND(registerValues, registersGP);
                 break;
             case 7:
-                //
+                halt(unmapped, memory);
                 break;
             case 8:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [-1,3,0],
+                                                   registerValues);
+                mapSegment(registerValues, registersGP, unmapped, memory);
                 break;
             case 9:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [-1,-1,0],
+                                                   registerValues);
+                unmapSegment(registerValues, registersGP, unmapped, memory);
                 break;
             case 10:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [-1,-1,0],
+                                                   registerValues);
+                output(registerValues, registersGP);
                 break;
             case 11:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [-1,-1,0],
+                                                   registerValues);
+                input(registerValues, registersGP);
                 break;
             case 12:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [-1,3,0],
+                                                   registerValues);
+                loadProgram(registerValues, 
+                            registersGP, 
+                            memory, 
+                            &instructionPointer, 
+                            &instructionCount);
                 break;
             case 13:
-                //
+                registerValues = getRegisterValues(currentWord, 
+                                                   [25,-1,-1],
+                                                   registerValues);
+                uint32_t value = Bitpack_getu(currentWord, 0, 25);
+                loadValue(registerValues, registersGP, value);
                 break;
         }
     }
 }
-
 
 int32_t* getRegisterValues(uint32_t word,
                            int[] registerPositions,

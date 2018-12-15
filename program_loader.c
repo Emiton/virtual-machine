@@ -80,7 +80,7 @@ uint32_t fileLength(FILE *currentFile)
 uint32_t createWord(FILE *program)
 {
     uint32_t word = 0;
-    int bytesInWord[4] = {0,0,0,0}; // hold the differnt bytes in a word
+    int bytesInWord[4] = {0}; // hold the differnt bytes in a word
     
     for(int i = 0; i < 4; i++)
     {
