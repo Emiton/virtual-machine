@@ -123,6 +123,7 @@ void runProgram(struct segment *instructionSet)
                 break;
             case 13:
                 C = Bitpack_getu(currentWord, 3, 25);
+                uint32_t value = Bitpack_getu(currentWord, 25, 0);
                 loadValue(C, registersGP, value);
                 break;
         } 
