@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     
     if(argc == 2)
     {
-        struct segment *inst = loadProgram(argv[1]);
+        struct segment *program = loadProgram(argv[1]);
         // run stuff
         // kill stuff
         // return

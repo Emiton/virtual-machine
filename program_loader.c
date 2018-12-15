@@ -22,7 +22,7 @@ uint32_t createWord(FILE *program);
  * @param: program - This is the binary file to be opened
  * @return: will return an instruction set that conatins all loaded
  * instructions and a field indicating number of instructions 
- * */
+ **/
 struct segment *loadProgram(char *program)
 {
     FILE *input = fopen(program, "r");
