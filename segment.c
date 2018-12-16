@@ -23,6 +23,9 @@
  **/    
  void storeValue(memSpace memory, uint32_t value, uint32_t seg_ID, uint32_t position)
 {
+    printf("seg_ID: %u <  memoryLength: %i\n", seg_ID, memoryLength(memory));
+//    assert(seg_ID >= 0);
+    assert(seg_ID < (uint32_t) memoryLength(memory));
     struct segment *currentSegment = Seq_get(memory, seg_ID);
     currentSegment->segmentWords[position] = value;
 }

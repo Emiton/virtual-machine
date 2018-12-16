@@ -26,6 +26,8 @@
  **/
 void conditionalMove(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
+    assert(A <= 7 && B <= 7 && C <= 7);
+    assert(reg != NULL);
     if(reg[C] != 0) 
     {
         reg[A] = reg[B];
@@ -43,6 +45,8 @@ void conditionalMove(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
  **/
 void segmentedLoad(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace memory)
 {
+    assert(A <= 7 && B <= 7 && C <= 7);
+    assert(reg != NULL);
     reg[A] = getValue(memory, reg[B], reg[C]);
 }
 
@@ -58,6 +62,9 @@ void segmentedLoad(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace me
  **/
 void segmentedStore(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace memory)
 {
+    assert(A <= 7 && B <= 7 && C <= 7);
+    assert(reg != NULL);
+    assert(memory != NULL);
     storeValue(memory, reg[A], reg[B], reg[C]);
 }
 
@@ -71,8 +78,9 @@ void segmentedStore(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace m
  **/
 void addition(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
+    assert(A <= 7 && B <= 7 && C <= 7);
+    assert(reg != NULL);
     reg[A] = reg[B] + reg[C];
-
 }
 
 /**
@@ -85,6 +93,8 @@ void addition(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
  **/
 void multiplication(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
+    assert(A <= 7 && B <= 7 && C <= 7);
+    assert(reg != NULL);
     reg[A] = reg[B] * reg[C];
 }
 
@@ -98,6 +108,8 @@ void multiplication(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
  **/
 void division(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
+    assert(A <= 7 && B <= 7 && C <= 7);
+    assert(reg != NULL);
     reg[A] = reg[B] / reg[C];
 }
 
@@ -111,6 +123,8 @@ void division(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
  **/
 void bitwiseNAND(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
+    assert(A <= 7 && B <= 7 && C <= 7);
+    assert(reg != NULL);
     reg[A] = ~(reg[B] & reg[C]);
 }
 
@@ -124,6 +138,11 @@ void bitwiseNAND(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
  **/
 void halt(Stack_T unmappedSegs, memSpace memory)
 {
+    assert(unmappedSegs != NULL);
+    assert(memory != NULL);
+    // No need to include an assert on memory since
+    // Seq_T will throw a checked runtime error if
+    // passing a null T to a Seq function. 
     for(int i = 0; i < memoryLength(memory); i++)
     {
         if(getSegment(memory, i) != NULL)
@@ -148,8 +167,10 @@ void halt(Stack_T unmappedSegs, memSpace memory)
  *           memory - memory of the universal machine
  **/
 void mapSegment(uint32_t B, uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
-{ 
-    if(Stack_empty(unmappedSegs) != 1)
+{
+    assert(B <= 7 && C <= 7); 
+    assert(unmappedSegs != NULL && memory != NULL);
+    if(!Stack_empty(unmappedSegs))
     {
         uint32_t segID = (uint32_t)(uintptr_t) Stack_pop(unmappedSegs);
         reg[B] = map_seg(memory, segID, reg[C]); 
@@ -172,6 +193,10 @@ void mapSegment(uint32_t B, uint32_t C, uint32_t *reg, Stack_T unmappedSegs, mem
  **/
 void unmapSegment(uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
 {
+    assert(C <= 7); 
+    assert(unmappedSegs != NULL && memory != NULL);
+    assert(reg != NULL);
+
     unmap_seg(memory, reg[C]);
     Stack_push(unmappedSegs, (void*)(uintptr_t) reg[C]); 
 }
@@ -184,6 +209,8 @@ void unmapSegment(uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memo
  **/
 void output(uint32_t C, uint32_t *reg)
 {    
+    assert(C <= 7);
+    assert(reg != NULL);
     putchar(reg[C]); //TODO: Error checking of 0 to 255 and C < 7
 }
 
@@ -195,6 +222,9 @@ void output(uint32_t C, uint32_t *reg)
  **/
 void input(uint32_t C, uint32_t *reg)
 {
+    assert(C <= 7);
+    assert(reg != NULL);
+
     uint32_t charInput = (uint32_t) getc(stdin);
     
     if(charInput == (uint32_t) EOF)
@@ -223,6 +253,11 @@ void input(uint32_t C, uint32_t *reg)
 // instructionCount used to be counter
 void loadProgram(uint32_t B, uint32_t C, uint32_t *reg, memSpace memory, int* instructionPointer, int* instructionCount)
 {    
+    assert(B <= 7 && C <= 7);
+    assert(reg != NULL);
+    assert(instructionPointer != NULL && *instructionPointer >= 0);
+    assert(instructionCount != NULL && *instructionCount >= 0);
+    
     *instructionPointer = reg[C] - 1;
     if(reg[B] != 0)
     {
@@ -240,6 +275,8 @@ void loadProgram(uint32_t B, uint32_t C, uint32_t *reg, memSpace memory, int* in
  **/
 void loadValue(uint32_t A, uint32_t *reg, uint32_t storedValue)
 {
+   assert(A <= 7);
+   assert(reg != NULL);
    reg[A] = storedValue;
 }
 

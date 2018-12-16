@@ -12,7 +12,7 @@
 #include "memory.h"
 #include "program_loader.h"
 #include <stdlib.h>
-
+#include <assert.h>
 void storeValue(memSpace memory, uint32_t value, uint32_t seg_ID, uint32_t position);
 uint32_t getValue(memSpace memory, uint32_t seg_ID, uint32_t position);
 struct segment *getSegment(memSpace memory, uint32_t seg_ID);
