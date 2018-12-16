@@ -16,6 +16,8 @@
 #include <assert.h>
 #include <stdio.h>
 
+#define MOD 4294967296 // 2^32 use as right operand in modulus
+
 /**
  * This function performs a conditional move operation upon the registers,
  * effectively setting values of register B to be the value of register A.
@@ -65,7 +67,7 @@ void segmentedStore(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace m
     assert(A <= 7 && B <= 7 && C <= 7);
     assert(reg != NULL);
     assert(memory != NULL);
-    storeValue(memory, reg[A], reg[B], reg[C]);
+    storeValue(memory, reg[C], reg[A], reg[B]);
 }
 
 /**
@@ -80,7 +82,7 @@ void addition(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     assert(A <= 7 && B <= 7 && C <= 7);
     assert(reg != NULL);
-    reg[A] = reg[B] + reg[C];
+    reg[A] = (reg[B] + reg[C]) % MOD;
 }
 
 /**
@@ -95,7 +97,7 @@ void multiplication(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     assert(A <= 7 && B <= 7 && C <= 7);
     assert(reg != NULL);
-    reg[A] = reg[B] * reg[C];
+    reg[A] = (reg[B] * reg[C]) % MOD;
 }
 
 /**
@@ -110,7 +112,7 @@ void division(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg)
 {
     assert(A <= 7 && B <= 7 && C <= 7);
     assert(reg != NULL);
-    reg[A] = reg[B] / reg[C];
+    reg[A] = (reg[B] / reg[C]);
 }
 
 /**
@@ -173,12 +175,12 @@ void mapSegment(uint32_t B, uint32_t C, uint32_t *reg, Stack_T unmappedSegs, mem
     if(!Stack_empty(unmappedSegs))
     {
         uint32_t segID = (uint32_t)(uintptr_t) Stack_pop(unmappedSegs);
-        reg[B] = map_seg(memory, segID, reg[C]); 
+        reg[B] = map_seg(memory, reg[C], segID); 
     }
     else
     {
         uint32_t segID = memoryLength(memory);
-        reg[B] = map_seg(memory, segID, reg[C]);
+        reg[B] = map_seg(memory, reg[C], segID);
     }
 }
 
