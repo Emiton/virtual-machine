@@ -1,3 +1,12 @@
+/**
+ *
+ * memory.h
+ *
+ * Authors : Emiton Alves and Cameron LaFreniere
+ *
+ * Description: Interface for memory.c
+ * */
+
 #ifndef MEMORY_INCLUDED
 #define MEMORY_INCLUDED
 

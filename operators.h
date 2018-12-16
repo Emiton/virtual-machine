@@ -2,9 +2,8 @@
  * operators.h
  *
  * Authors: Emiton Alves and Cameron LaFreniere
- * 
- * Description: This file holds all operators that will execute instructions 
- *              provided by the program
+ *
+ * Description: Interface for operators.c 
  */
 
 #ifndef OPERATORS_INCLUDED
@@ -30,7 +29,5 @@ void output(uint32_t C, uint32_t *reg);
 void input(uint32_t C, uint32_t *reg);
 void loadProgram(uint32_t B, uint32_t C, uint32_t *reg, memSpace memory, int* instructionCount, int* counter); // counter and program length?
 void loadValue(uint32_t A, uint32_t *reg, uint32_t storedValue);
-
-//void freeProg(Stack_T unmappedSegs, memSpace memory);
 
 #endif

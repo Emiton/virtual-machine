@@ -3,9 +3,9 @@
  *
  * Authors : Emiton Alves and Cameron LaFreniere
  *
- * Description: This file TODO
- *
+ * Description: Interface for program_loader.c
  * */
+
 #ifndef PROGRAM_LOADER_INCLUDED
 #define PROGRAM_LOADER_INCLUDED
 

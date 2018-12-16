@@ -1,3 +1,11 @@
+/*
+ * segment.h
+ *
+ * Authors: Emiton Alves and Cameron LaFreniere
+ *
+ * Description: Interface for segment.c 
+ * */
+
 #ifndef SEGMENT_INCLUDED
 #define SEGMENT_INCLUDED
 

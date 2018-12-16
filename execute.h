@@ -1,3 +1,11 @@
+/*
+ * execute.h
+ *
+ * Authors : Emiton Alves and Cameron LaFreniere
+ * 
+ * Description: Interface for execute.c
+ * */
+
 #ifndef EXECUTE_INCLUDED
 #define EXECUTE_INCLUDED
 
@@ -7,9 +15,6 @@
 #include <stack.h>
 #include "memory.h"
 
-//void getRegisterValues(uint32_t word,
-//                           int registerPositions[],
-//                           uint32_t **registerValues);
 void runProgram(struct segment *instructionSet);
 
 

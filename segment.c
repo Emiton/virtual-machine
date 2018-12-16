@@ -1,9 +1,13 @@
 /*
- * execute.c
+ * segment.c
  *
  * Authors : Emiton Alves and Cameron LaFreniere
  *
- * Description: This file TODO
+ * Description: This file holds all truths related to the true representation of
+ *              a segment. The functions provided allow for operations on a
+ *              segment to be performed, such as placing a segment in memory,
+ *              storing a value, getting a value, getting a segment, and
+ *              removing a segment from memory.   
  *
  * */
 
