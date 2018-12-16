@@ -3,7 +3,12 @@
  *
  * Authors : Emiton Alves and Cameron LaFreniere
  *
- * Description: This file TODO
+ * Description: This file runs the program by going through each
+ *              instruction and performs an instruction based
+ *              on a given op code. The file also initializes
+ *              the program memory and creates a stack to store
+ *              segment indices that are no longer being used but can be 
+ *              used later.
  *
  * */
 
@@ -11,42 +16,30 @@
 #include <stdlib.h>
 #include "execute.h"
 
-//uint32_t* getRegisterValues(uint32_t word,
-//                           int registerPositions[],
-//                           uint32_t *registerValues);
-
-//void getRegisterValues(uint32_t word,
-//                           int registerPositions[],
-//                           uint32_t **registerValues);
 
 int instructionPointer = 0;
 uint32_t registersGP[8] = {0};
 
-/**TODO
- * This function is used to load a program segment from the binary file
+/**
+ * This function runs through the program word by word, executing
+ * each instruction based on a specified op code. The registers used in
+ * each word will be retrieved to get the value they contain.
  * @param: program - This is the binary file to be opened
- * @return: will return an instruction set that conatins all loaded
- * instructions and a field indicating number of instructions 
+ * @return: Will return an instruction set that conatins all loaded
+ *          instructions and a field indicating number of instructions 
  **/
 void runProgram(struct segment *instructionSet)
 {
     memSpace memory = initializeMemory(100);
     Stack_T unmappedSegs = Stack_new();
     int instructionCount = instructionSet->segmentLength;
-    Seq_addhi(memory, instructionSet);
-
+    mapProgramSegment(memory, instructionSet);
     for(;instructionPointer < instructionCount;instructionPointer++)
     {
-        struct segment *currentSegment = Seq_get(memory, 0);
+        struct segment *currentSegment = getSegment(memory, 0);
         uint32_t currentWord = currentSegment->segmentWords[instructionPointer];
-        uint32_t operator = (uint32_t)Bitpack_getu(currentWord, 4, 28); // look at casting and other methods. Is this safe?
-        //uint32_t registerValues[3] = {0}; // Registers that will be operated on 
-        //uint32_t *registerValues;
+        uint32_t operator = (uint32_t)Bitpack_getu(currentWord, 4, 28);
         uint32_t A, B, C;
-        /*int abcPositions[3] = {6,3,0};
-        int bcPositions[3] = {-1,3,0};
-        int cPosition[3] = {-1,-1,0};
-        int aPosition[3] = {25,-1,-1};*/
         switch(operator)
         {
             case 0:
@@ -129,38 +122,3 @@ void runProgram(struct segment *instructionSet)
         } 
     }
 }
-/*
-// TODO remove registerValues, not used, remove from all 
-uint32_t* getRegisterValues(uint32_t word,
-                           int registerPositions[],
-                           uint32_t *registerValues) 
-{
-    uint32_t regVal[3] = {0};
-    for(int i = 0; i < 3; i++)
-    {
-        if(registerPositions[i] != -1)
-        {
-            regVal[i] = (uint32_t) Bitpack_getu(word, 3, registerPositions[i]);
-        }
-    }
-    (void)registerValues;
-    return *regVal;
-}
-*/
-/*
-void getRegisterValues(uint32_t word,
-                           int registerPositions[],
-                           uint32_t **registerValues) 
-{
-    uint32_t regVal[3] = {0};
-    for(int i = 0; i < 3; i++)
-    {
-        if(registerPositions[i] != -1)
-        {
-            regVal[i] = (uint32_t) Bitpack_getu(word, 3, registerPositions[i]);
-        }
-
-    }
-    *registerValues = regVal;
-}
-*/

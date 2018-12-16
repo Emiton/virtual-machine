@@ -11,5 +11,5 @@ struct segment *getSegment(memSpace memory, uint32_t seg_ID);
 int program_load(memSpace memory, uint32_t seg_ID);
 uint32_t map_seg(memSpace memory, uint32_t value, uint32_t seg_ID);
 void unmap_seg(memSpace memory, uint32_t seg_ID);
-
+void mapProgramSegment(memSpace memory, struct segment *instructionSet);
 #endif

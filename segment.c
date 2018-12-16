@@ -9,24 +9,62 @@
 
 #include "segment.h"
 
-void storeValue(memSpace memory, uint32_t value, uint32_t seg_ID, uint32_t position)
+/**
+ * This function gets a segment from memory and assigns a specific word
+ * in that segment to be assigned to a value.
+ * @param: memory - the memory space of the program
+ *          value - the value to be stored in the segment
+ *         seg_ID - the index of the segment in the sequence
+ *       position - the word offset in the segment 
+ **/    
+ void storeValue(memSpace memory, uint32_t value, uint32_t seg_ID, uint32_t position)
 {
     struct segment *currentSegment = Seq_get(memory, seg_ID);
     currentSegment->segmentWords[position] = value;
 }
 
+/**
+ * This function gets a segment and based on a given offset, will return
+ * the value of a word. 
+ * @param: memory - the memory space of the program
+ *         seg_ID - the index of the segment in the sequence
+ *       position - the word offset in the segment 
+ * 
+ * @return: value in a specified word within a segment 
+ **/    
 uint32_t getValue(memSpace memory, uint32_t seg_ID, uint32_t position)
 {
     struct segment *currentSegment = Seq_get(memory, seg_ID);
     return currentSegment->segmentWords[position];
 }
 
+
+/**
+ * This function retrieves a segment specified by the segment index (represented
+ * by seg_ID). 
+ * @param: memory - the memory space of the program
+ *         seg_ID - the index of the segment in the sequence
+ *       position - the word offset in the segment 
+ * @return: segment specified by seg_ID
+ **/    
 struct segment *getSegment(memSpace memory, uint32_t seg_ID)
 {
     struct segment *currentSegment = (struct segment*) Seq_get(memory, seg_ID);
     return currentSegment;
 }
 
+
+/**
+ * This function gets the original  program and its instruction count,
+ * then creates a replacement program that stores all words from the original
+ * program. The original program is then removed from memory and replaced by the
+ * new program in memory. The instruction count is returned.
+ * 
+ * @param: memory - the memory space of the program
+ *         seg_ID - the index of the segment in the sequence
+ *
+ * @return: number of words (instructions) in replacement program
+ **/    
 int program_load(memSpace memory, uint32_t seg_ID)
 {
     struct segment *currentProgram = Seq_get(memory, seg_ID);
@@ -47,6 +85,19 @@ int program_load(memSpace memory, uint32_t seg_ID)
     return instructionCount;
 }
 
+
+/**
+ * This function creates a new segment of a length passed in
+ * and assigns all words within the segment to be 0. If the seg_ID
+ * is within the bounds of the current memory, the new segment
+ * is placed within memory. Otherwise, the new segment is appended
+ * to the end of the memory, expanding the memory by one segment.
+ *
+ * @param: memory - the memory space of the program
+ *          value - the value to be stored in the segment
+ *         seg_ID - the index of the segment in the sequence
+ * @return: segment ID of the new segment
+ **/    
 uint32_t map_seg (memSpace memory, uint32_t value, uint32_t seg_ID)
 {
     struct segment *replacementSeg = NULL;
@@ -58,18 +109,27 @@ uint32_t map_seg (memSpace memory, uint32_t value, uint32_t seg_ID)
     {
         replacementSeg->segmentWords[i] = 0;    
     }
+    
     if(seg_ID < (uint32_t) Seq_length(memory))
     {
         Seq_put(memory, seg_ID, replacementSeg);
         return seg_ID;
     }
-    else //if(seg_ID >= (uint32_t) memoryLength(memory)) // TODO: Can we cast a seq call from int to uint32_t? 
+    
+    else  
     {
         Seq_addhi(memory, replacementSeg);
         return (uint32_t) (memoryLength(memory) - 1);
     } 
 }
 
+/**
+ * This function gets a segment specified by its ID and
+ * will free that segment from memory. The value at its address in memory
+ * is now NULL.
+ * @param: memory - the memory space of the program
+ *         seg_ID - the index of the segment in the sequence
+ **/
 void unmap_seg(memSpace memory, uint32_t seg_ID)
 {
     struct segment *currentSegment = Seq_get(memory, seg_ID);
@@ -77,3 +137,13 @@ void unmap_seg(memSpace memory, uint32_t seg_ID)
     Seq_put(memory, seg_ID, NULL);
 }
 
+
+/**
+ * This function maps the program instruction set into segment 0 in memory.
+ * @param:      memory - the memory space of the program
+ *     *instructionSet - the words of the program   
+ **/
+void mapProgramSegment(memSpace memory, struct segment *instructionSet)
+{
+  Seq_addhi(memory, instructionSet); 
+}
