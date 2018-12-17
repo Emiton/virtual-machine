@@ -27,7 +27,7 @@ void mapSegment(uint32_t B, uint32_t C, uint32_t *reg, Stack_T unmappedSegs, mem
 void unmapSegment(uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memory);
 void output(uint32_t C, uint32_t *reg);
 void input(uint32_t C, uint32_t *reg);
-void loadProgram(uint32_t B, uint32_t C, uint32_t *reg, memSpace memory, int* instructionCount, int* counter); // counter and program length?
+void loadProgram(uint32_t B, uint32_t C, uint32_t *reg, memSpace memory, int* instructionCount, int* counter);
 void loadValue(uint32_t A, uint32_t *reg, uint32_t storedValue);
 
 #endif

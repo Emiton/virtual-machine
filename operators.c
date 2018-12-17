@@ -8,8 +8,6 @@
  *              upon a register. An operator has at most three registers
  *              that it will operate on, but some include only two, one,
  *              or zero (for halt). 
- *
- *
  * */
 #include <stdint.h>
 #include "operators.h"
@@ -60,7 +58,6 @@ void segmentedLoad(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace me
  *         C - an index of register array
  *       reg - register array
  *    memory - memory of universal machine
- *
  **/
 void segmentedStore(uint32_t A, uint32_t B,uint32_t C, uint32_t *reg, memSpace memory)
 {
@@ -168,7 +165,11 @@ void halt(Stack_T unmappedSegs, memSpace memory)
  *     unmappedSegs - stack storing segments that were previously mapped 
  *           memory - memory of the universal machine
  **/
-void mapSegment(uint32_t B, uint32_t C, uint32_t *reg, Stack_T unmappedSegs, memSpace memory)
+void mapSegment(uint32_t B, 
+                uint32_t C, 
+                uint32_t *reg, 
+                Stack_T unmappedSegs, 
+                memSpace memory)
 {
     assert(B <= 7 && C <= 7); 
     assert(unmappedSegs != NULL && memory != NULL);
@@ -213,7 +214,7 @@ void output(uint32_t C, uint32_t *reg)
 {    
     assert(C <= 7);
     assert(reg != NULL);
-    putchar(reg[C]); //TODO: Error checking of 0 to 255 and C < 7
+    putchar(reg[C]);
 }
 
 /**
@@ -251,9 +252,12 @@ void input(uint32_t C, uint32_t *reg)
  *      instructionCount - the number of instructions in the program
  *
  **/
-// TODO:instructionPointer used to be instructionCount
-// instructionCount used to be counter
-void loadProgram(uint32_t B, uint32_t C, uint32_t *reg, memSpace memory, int* instructionPointer, int* instructionCount)
+void loadProgram(uint32_t B, 
+                 uint32_t C, 
+                 uint32_t *reg, 
+                 memSpace memory, 
+                 int* instructionPointer, 
+                 int* instructionCount)
 {    
     assert(B <= 7 && C <= 7);
     assert(reg != NULL);

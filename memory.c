@@ -8,7 +8,6 @@
  *              are no references to segments, meaning that memory.c does not
  *              concern itself with the implementation of the indices of 
  *              the sequence that it initializes and eventually frees. 
- *
  * */
 
 #include "memory.h"
@@ -34,8 +33,8 @@ void freeMemory(memSpace *memory)
 }
 
 /**
- *  This function returns the number of indices in the sequence, which
- *  represents the length of the memory in the UM. 
+ * This function returns the number of indices in the sequence, which
+ * represents the length of the memory in the UM. 
  * @param: memory - memory of the UM 
  **/
 int memoryLength(memSpace memory)

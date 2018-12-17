@@ -6,7 +6,6 @@
  * Description: This file handles the loading of a binary file.
  *              The input file will be translated into a set of 32 bit words.
  *              The set of words are returned to the client.
- *
  * */
 
 #include "program_loader.h"
@@ -34,7 +33,6 @@ struct segment *load(char *program)
     instructionSet = malloc(sizeof(struct segment));
     instructionSet->segmentWords = malloc(programLength * sizeof(uint32_t));
     instructionSet->segmentLength = programLength;
-    //int *instructionSet = malloc(programLength * sizeof(uint32_t)); // TODO: think about array_t instead
         
     uint32_t currentWord = 0;
     
@@ -64,8 +62,6 @@ uint32_t fileLength(FILE *currentFile)
     }
 
     fseek(currentFile, 0, SEEK_SET);
-    // TODO: If fseek gives headache, close file here and reopen after fileLength called 
-    //fclose(currentFile);
     return (uint32_t) (numberOfCharacters -  1) / 4;
 }
 
@@ -77,7 +73,7 @@ uint32_t fileLength(FILE *currentFile)
 uint32_t createWord(FILE *program)
 {
     uint32_t word = 0;
-    int bytesInWord[4] = {0}; // hold the differnt bytes in a word
+    int bytesInWord[4] = {0};
     
     for(int i = 0; i < 4; i++)
     {

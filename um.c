@@ -6,7 +6,6 @@
  * Description: This file is the starting point for our program. It will load
  *              a binary file into an instruction set. It will then execute the
  *              instruction set. Everything is initiated from this point. 
- *
  * */
 
 #include <stdio.h>
